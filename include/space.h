@@ -1,7 +1,7 @@
 #include "human.h"
 #include <list>
 
-class Space {
+class Space {   //ABSTRACT χώρος.
 
 protected:
     list <Student*> students;
@@ -13,24 +13,36 @@ public:
 };
 
 
-class Classroom: public Space{
+class Classroom: public Space{  //Η classroom αφου αποθηκευει μαθητες είναι ένας χώρος
 
 private:
     int Cclass; //ποσοι μαθητες χωρανε συνολικα
-    int capacity; //ποσοι μαθητες εχουν μπει μεχρι τωρα
-    Teacher* teacher;
+    int floorId;
+    int classId;
+    Teacher* teacher;       //ενδεχεται καποιος να θελει να βαλει περισσοτερους απο εναν δασκαλους
 
 public:
-    Classroom(int C): Cclass(C), capacity(0){ cout<<"A new Classroom has been created!"<<endl;}
-    void enter(Student&);
+    Classroom(int C,int floorId,int classId): Cclass(C),floorId(floorId),classId(classId),teacher(NULL){ cout<<"A new Classroom has been created!"<<endl;}
+    void enter(Student&);   
     void place(Teacher&);
     void operate(int hours){
-        //attend τους μαθητες
+        for(list<Student*>::iterator it= this->students.begin();it != this->students.end();++it)
+            (*it)->attend(hours);
+        if(this->teacher!=NULL)
+            teacher->attend(hours);
+    }
+    void print(){
+        cout<<"People in class "<<this->floorId<<"."<<this->classId<<" are: "<<endl;
+        for(list<Student*>::iterator it= this->students.begin();it != this->students.end();++it)
+            (*it)->print();
+        cout<<"The teacher is:  "<<endl;
+        if(this->teacher!=NULL)
+            teacher->print();
     }
     
 };
 
-class Corridor: public Space{
+class Corridor: public Space{   //O corridor αφου αποθηκευει μαθητες είναι ένας χώρος
 
 
 public:
@@ -43,16 +55,18 @@ public:
 
 };
 
-class Floor: public Space{
+class Floor {
 
 private:
     Classroom* classrooms[6];
     Corridor corridor;
+    int floorId;
+    
 
 public:
-    Floor(int Cclass){
+    Floor(int Cclass,int floorId): floorId(floorId){
         for(int i=0;i<6;i++)
-            classrooms[i]= new Classroom(Cclass);
+            classrooms[i]= new Classroom(Cclass,floorId,i);
     
     }
     void enter(Student&);
@@ -60,6 +74,11 @@ public:
     void operate(int hours){
         for(int i=0;i<6;i++)
             this->classrooms[i]->operate(hours);
+    }
+    void print() const {
+        cout<<"Floor number "<<this->floorId <<" contains: "<<endl;
+        for(int i=0;i<6;i++)
+            this->classrooms[i]->print();
     }
 
 };
@@ -87,7 +106,7 @@ public:
 
 };
 
-class School: public Space {
+class School {  
 
 private:
     Schoolyard schoolyard;
@@ -97,13 +116,22 @@ private:
 public:
     School(int Cclass){
         for(int i=0;i<3;i++)
-            floors[i]=new Floor(Cclass);
+            floors[i]=new Floor(Cclass,i);
         
         cout<<"A new School has been constructed"<<endl;
 
     }
     void enter(Student&);
     void place(Teacher& );
+    void operate(int hours){
+        for(int i=0;i<3;i++)
+            this->floors[i]->operate(hours);
+    }
+    void print() const {
+        cout<<"School life consist of: "<<endl;
+        for (int i=0;i<3;i++)
+            this->floors[i]->print();
+    }
     void operate(int hours){
         for(int i=0;i<3;i++)
             this->floors[i]->operate(hours);

@@ -16,9 +16,9 @@ Student& Schoolyard :: exit(){
 
 
 void Stairs::enter(Student& s){
-
     this->students.push_front(&s);
     cout<<s.get_name()<<" enter Stairs!"<<endl;
+
 }
 
 
@@ -81,11 +81,13 @@ void Classroom::enter(Student& s){
     this->students.push_front(&s);
     //prepei na kano to bool tou mathiti true
     cout<<s.get_name()<<" enter Classroom!"<<endl;
+        
 }
 
+
 void Classroom::place(Teacher& t){
-    if(this->teacher==NULL)
-        this->teacher=& t;
+    // if(this->teacher==NULL)
+    //     this->teacher=& t;
 
     return;
 
