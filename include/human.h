@@ -74,5 +74,6 @@ public:
     void attend(){this->fatigue = this->fatigue + this->fatigue; }
     int get_floor_id(){return this->floorId;}
     int get_class_id(){return this->classId;}
+    void print(){cout<<"Teacher's name is: "<<this->name<<" and teacher's fatigue is: "<<this->fatigue<<endl;}
 
 };
