@@ -14,7 +14,7 @@ Student& Schoolyard :: exit(){
     return *temp;
 }
 
-
+//---------------------------------------------------------------------
 void Stairs::enter(Student& s){
     this->students.push_front(&s);
     cout<<s.get_name()<<" enter Stairs!"<<endl;
@@ -31,6 +31,7 @@ Student& Stairs :: exit(){
 }
 
 
+//---------------------------------------------------------------------
 
 void Corridor::enter(Student& s){
 
@@ -47,6 +48,7 @@ Student& Corridor :: exit(){
 }
 
 
+//---------------------------------------------------------------------
 
 void School::enter(Student& s){
     
@@ -62,6 +64,18 @@ void School::place(Teacher& t){
     this->floors[t.get_floor_id()]->place(t);
 }
 
+void School::operate(int hours){
+    for(int i=0;i<3;i++)
+            this->floors[i]->operate(hours);
+}
+
+void School::print() const{
+    cout<<"School life consist of: "<<endl;
+        for (int i=0;i<3;i++)
+            this->floors[i]->print();
+}
+
+//---------------------------------------------------------------------
 
 void Floor::enter(Student& s){
 
@@ -74,7 +88,17 @@ void Floor::enter(Student& s){
 void Floor::place(Teacher& t){
     this->classrooms[t.get_class_id()]->place(t);
 }
+void Floor::operate(int hours){
+    for(int i=0;i<6;i++)
+            this->classrooms[i]->operate(hours);
+}
 
+void Floor::print() const {
+    cout<<"Floor number "<<this->floorId <<" contains: "<<endl;
+        for(int i=0;i<6;i++)
+            this->classrooms[i]->print();
+}
+//---------------------------------------------------------------------
 
 void Classroom::enter(Student& s){
 
@@ -86,10 +110,25 @@ void Classroom::enter(Student& s){
 
 
 void Classroom::place(Teacher& t){
-    // if(this->teacher==NULL)
-    //     this->teacher=& t;
-
-    return;
+    if(this->teacher==NULL)
+        this->teacher=& t;
 
 }
 
+void Classroom::operate(int hours){
+    for(list<Student*>::iterator it= this->students.begin();it != this->students.end();++it)
+            (*it)->attend(hours);
+        if(this->teacher!=NULL)
+            teacher->attend(hours);
+}
+
+void Classroom::print(){
+    cout<<"People in class "<<this->floorId<<"."<<this->classId<<" are: "<<endl;
+        for(list<Student*>::iterator it= this->students.begin();it != this->students.end();++it)
+            (*it)->print();
+        cout<<"The teacher is:  "<<endl;
+        if(this->teacher!=NULL)
+            teacher->print();
+}
+
+//---------------------------------------------------------------------

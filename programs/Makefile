@@ -15,7 +15,7 @@ OBJS =  $(MODULES)/space.o main.o #$(MODULES)/student.o
 # Το εκτελέσιμο πρόγραμμα
 EXEC = main
 
-ARGS= 1 1 1 1
+ARGS= 1 1 2 4
 
 
 

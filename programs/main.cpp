@@ -42,10 +42,6 @@ int main(int argc, char** argv){
         }
     }
 
- for(int i=0;i<Cclass*N;i++)
-    cout<<"&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&::::::::::"<<stud[i]->get_name()<<endl;
-
-
     int end=Cclass*N;
     int div=18;
     int temp=0;
@@ -72,20 +68,21 @@ int main(int argc, char** argv){
                 end--;
         }
 
-        // if(div==0)      //Αν εχουν μπει όλοι οι καθηγητες στην τάξη τους, πρέπει να ελένξουμε και τους μαθητές
-        //     continue;
+        if(div==0)      //Αν εχουν μπει όλοι οι καθηγητες στην τάξη τους, πρέπει να ελένξουμε και τους μαθητές
+            continue;
 
-        //     int times=rand()%div;
-        //     for(int k=0;k<=times;k++){
-        //         i=rand()%div;
-        //         school.place(*(teachers[i]));
-        //         Teacher* temp= teachers[i];
-        //         teachers[i]=teachers[div-1];
-        //         teachers[div-1]=temp;
-        //         div--; 
-        //     }
+            int times=rand()%div;
+            for(int k=0;k<=times;k++){
+                i=rand()%div;
+                school.place(*(teachers[i]));
+                Teacher* temp= teachers[i];
+                teachers[i]=teachers[div-1];
+                teachers[div-1]=temp;
+                div--; 
+            }
         
     }
+    school.operate(10);
     school.print();
     
 

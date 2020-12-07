@@ -25,22 +25,10 @@ public:
     Classroom(int C,int floorId,int classId): Cclass(C),floorId(floorId),classId(classId),teacher(NULL){ cout<<"A new Classroom has been created!"<<endl;}
     void enter(Student&);   
     void place(Teacher&);
-    void operate(int hours){
-        for(list<Student*>::iterator it= this->students.begin();it != this->students.end();++it)
-            (*it)->attend(hours);
-        if(this->teacher!=NULL)
-            teacher->attend(hours);
-    }
-    void print(){
-        cout<<"People in class "<<this->floorId<<"."<<this->classId<<" are: "<<endl;
-        for(list<Student*>::iterator it= this->students.begin();it != this->students.end();++it)
-            (*it)->print();
-        cout<<"The teacher is:  "<<endl;
-        if(this->teacher!=NULL)
-            teacher->print();
-    }
-    
+    void operate(int);
+    void print();    
 };
+
 
 class Corridor: public Space{   //O corridor αφου αποθηκευει μαθητες είναι ένας χώρος
 
@@ -71,16 +59,8 @@ public:
     }
     void enter(Student&);
     void place(Teacher&);
-    void operate(int hours){
-        for(int i=0;i<6;i++)
-            this->classrooms[i]->operate(hours);
-    }
-    void print() const {
-        cout<<"Floor number "<<this->floorId <<" contains: "<<endl;
-        for(int i=0;i<6;i++)
-            this->classrooms[i]->print();
-    }
-
+    void operate(int hours);
+    void print() const ;
 };
 
 class Stairs: public Space{
@@ -106,6 +86,9 @@ public:
 
 };
 
+
+
+
 class School {  
 
 private:
@@ -117,26 +100,12 @@ public:
     School(int Cclass){
         for(int i=0;i<3;i++)
             floors[i]=new Floor(Cclass,i);
-        
         cout<<"A new School has been constructed"<<endl;
-
     }
     void enter(Student&);
     void place(Teacher& );
-    void operate(int hours){
-        for(int i=0;i<3;i++)
-            this->floors[i]->operate(hours);
-    }
-    void print() const {
-        cout<<"School life consist of: "<<endl;
-        for (int i=0;i<3;i++)
-            this->floors[i]->print();
-    }
-    void operate(int hours){
-        for(int i=0;i<3;i++)
-            this->floors[i]->operate(hours);
-    }
-
+    void operate(int);
+    void print() const;
 };
 
 
