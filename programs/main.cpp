@@ -68,8 +68,8 @@ int main(int argc, char** argv){
                 end--;
         }
 
-        if(div==0)      //Αν εχουν μπει όλοι οι καθηγητες στην τάξη τους, πρέπει να ελένξουμε και τους μαθητές
-            continue;
+        if(div==0){      //Αν εχουν μπει όλοι οι καθηγητες στην τάξη τους, πρέπει να ελένξουμε και τους μαθητές
+            continue;}
 
             int times=rand()%div;
             for(int k=0;k<=times;k++){
@@ -87,9 +87,11 @@ int main(int argc, char** argv){
     
 
 
+    for(int i=0;i<N*Cclass;i++)
+        delete stud[i];
 
-
-
+    for(int i=0;i<N;i++)
+        delete teachers[i];
     
 
     return 0;
