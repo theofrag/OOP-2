@@ -9,7 +9,9 @@ protected:
 public:
 
     virtual void enter(Student& )=0;
-
+    virtual ~Space(){
+        return;
+    };
 };
 
 
@@ -22,11 +24,18 @@ private:
     Teacher* teacher;       //ενδεχεται καποιος να θελει να βαλει περισσοτερους απο εναν δασκαλους
 
 public:
-    Classroom(int C,int floorId,int classId): Cclass(C),floorId(floorId),classId(classId),teacher(NULL){ cout<<"A new Classroom has been created!"<<endl;}
+    Classroom(int C,int floorId,int classId): Cclass(C),floorId(floorId),classId(classId),teacher(NULL){
+        cout<<"A new Classroom has been created!"<<endl;
+    }
+
     void enter(Student&);   
     void place(Teacher&);
     void operate(int);
-    void print();    
+    void print();
+
+    ~Classroom(){
+        cout<<"A Classroom to be destroyed!"<<endl;
+    }    
 };
 
 
@@ -38,9 +47,11 @@ public:
         cout<<"A new Corridor has been constructed"<<endl;
     }
     void enter(Student&);
-    
-    Student& exit();
+    Student* exit();
+    ~Corridor(){
+        cout<<"A Corridor to be destroyed!"<<endl;
 
+    }
 };
 
 class Floor {
@@ -61,6 +72,12 @@ public:
     void place(Teacher&);
     void operate(int hours);
     void print() const ;
+    ~Floor(){
+        for(int i=0;i<6;i++)
+            delete classrooms[i];
+        cout<<"A Floor to be destroyed!"<<endl;
+
+    }
 };
 
 class Stairs: public Space{
@@ -71,7 +88,7 @@ public:
 
     }
     void enter(Student&);
-    Student& exit();
+    Student* exit();
 };
 
 class Schoolyard: public Space{
@@ -82,7 +99,7 @@ public:
 
     }
     void enter(Student&);
-    Student& exit();
+    Student* exit();
 
 };
 
@@ -106,6 +123,11 @@ public:
     void place(Teacher& );
     void operate(int);
     void print() const;
+    ~School(){
+        for(int i=0;i<3;i++)
+            delete floors[i];
+        cout<<"A School to be destroyed!"<<endl;
+    }
 };
 
 
