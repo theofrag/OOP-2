@@ -119,7 +119,7 @@ void Classroom::operate(int hours){
     for(list<Student*>::iterator it= this->students.begin();it != this->students.end();++it)
             (*it)->attend(hours);
         if(this->teacher!=NULL)
-            teacher->attend(hours);
+            teacher->teach(hours);
 }
 
 void Classroom::print(){
