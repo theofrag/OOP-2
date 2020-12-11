@@ -84,8 +84,6 @@ int main(int argc, char** argv){
     }
     school.operate(10);
     school.print();
-    
-
 
     for(int i=0;i<N*Cclass;i++)
         delete stud[i];

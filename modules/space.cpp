@@ -68,7 +68,7 @@ void School::operate(int hours){
             this->floors[i]->operate(hours);
 }
 
-void School::print() const{
+void School::print() {
     cout<<"School life consist of: "<<endl;
         for (int i=0;i<3;i++)
             this->floors[i]->print();
@@ -92,7 +92,7 @@ void Floor::operate(int hours){
             this->classrooms[i]->operate(hours);
 }
 
-void Floor::print() const {
+void Floor::print()  {
     cout<<"Floor number "<<this->floorId <<" contains: "<<endl;
         for(int i=0;i<6;i++)
             this->classrooms[i]->print();
@@ -109,8 +109,10 @@ void Classroom::enter(Student& s){
 
 
 void Classroom::place(Teacher& t){
-    if(this->teacher==NULL)
+    if(this->teacher==NULL){
         this->teacher=& t;
+        t.set_inClass(true);
+    }
 
 }
 

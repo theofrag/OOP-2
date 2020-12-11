@@ -5,23 +5,34 @@ class Space {   //ABSTRACT χώρος.
 
 protected:
     list <Student*> students;
-
 public:
 
     virtual void enter(Student& )=0;
+    virtual Student* exit()=0;
     virtual ~Space(){
         return;
     };
 };
 
+class Trasplace{     //μεταβατικος χωρος, ανηκουν εκει το σχολειο και το floor
 
-class Classroom: public Space{  //Η classroom αφου αποθηκευει μαθητες είναι ένας χώρος
+public:
+    virtual void operate(int hours)=0;  
+    virtual void enter(Student& )=0;
+    virtual void place(Teacher& )=0;
+    virtual void print()  =0;
+
+};
+
+
+class Classroom: public Trasplace{  //Η classroom αφου αποθηκευει μαθητες είναι ένας χώρος
 
 private:
     int Cclass; //ποσοι μαθητες χωρανε συνολικα
-    int floorId;
-    int classId;
-    Teacher* teacher;       //ενδεχεται καποιος να θελει να βαλει περισσοτερους απο εναν δασκαλους
+    int floorId;    //αριθμος οροφου
+    int classId;    //αριθμος ταξης
+    Teacher* teacher;
+    list < Student* > students;
 
 public:
     Classroom(int C,int floorId,int classId): Cclass(C),floorId(floorId),classId(classId),teacher(NULL){
@@ -31,27 +42,19 @@ public:
     void enter(Student&);   
     void place(Teacher&);
     void operate(int);
-    void print();
+    void print() ;
 
-    ~Classroom(){
-        cout<<"A Classroom to be destroyed!"<<endl;
-    }    
+    ~Classroom(){ cout<<"A Classroom to be destroyed!"<<endl; }    
 };
 
 
-class Corridor: public Space{   //O corridor αφου αποθηκευει μαθητες είναι ένας χώρος
-
+class Corridor: public Space{   //αφου αποθηκευει μαθητες μου εχουν ΚΑΙ exit ΚΑΙ enter είναι ένας χώρος
 
 public:
-    Corridor(){
-        cout<<"A new Corridor has been constructed"<<endl;
-    }
+    Corridor(){ cout<<"A new Corridor has been constructed"<<endl; }
     void enter(Student&);
     Student* exit();
-    ~Corridor(){
-        cout<<"A Corridor to be destroyed!"<<endl;
-
-    }
+    ~Corridor(){ cout<<"A Corridor to be destroyed!"<<endl; }
 };
 
 class Floor {
@@ -71,7 +74,7 @@ public:
     void enter(Student&);
     void place(Teacher&);
     void operate(int hours);
-    void print() const ;
+    void print()  ;
     ~Floor(){
         for(int i=0;i<6;i++)
             delete classrooms[i];
@@ -106,7 +109,7 @@ public:
 
 
 
-class School {  
+class School: public Trasplace {  
 
 private:
     Schoolyard schoolyard;
@@ -122,7 +125,7 @@ public:
     void enter(Student&);
     void place(Teacher& );
     void operate(int);
-    void print() const;
+    void print() ;
     ~School(){
         for(int i=0;i<3;i++)
             delete floors[i];

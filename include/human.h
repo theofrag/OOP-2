@@ -3,7 +3,9 @@
 
 using namespace std;
 
-class Human{        //base class, ειναι abstract class
+
+//base class, ειναι abstract class
+class Human{        
 
 protected:
     string name;    //το ονομα του ανθρωπου
@@ -13,33 +15,36 @@ public:
     Human(string name, int L): name(name), fatigue(0), Lfatigue(L) {}
     string get_name(){return this->name;}
     virtual void print() const=0;
+    virtual ~Human(){ return;}
 };
 
 
-
-class Academic: public Human{   //εξειδικευση το human
+//υποκλαση το human, ABSTRACT
+class Academic: public Human{ 
 
 protected:
     int floorId, classId;   //αριθμος οροφου, αριθμος αιθουσας
     bool inClassroom;   //αν ειναι στην ταξη του == true
 public:
     Academic(string name,int floorId,int classId,int L):Human(name,L),floorId(floorId),classId(classId), inClassroom(false) {}
+    void set_inClass(bool b){ this->inClassroom=b; }
+    int get_floor_id(){return this->floorId;}
+    int get_class_id(){return this->classId;}
     virtual ~Academic(){
         return;
     }
 };
 
-class Student: public Academic {   //Abstract class και αυτη
+//Abstract class και αυτη
+class Student: public Academic {   
 
 public:
     Student(string name,int floorId,int classId,int L):Academic(name,floorId,classId,L) {
         cout<<"A new Student has been created! "<<endl;
     };
+
     void print() const{cout<<"Student's name is: "<<this->name<<" and students fatigue is: "<<this->fatigue<<endl;}
     virtual void attend(int hours)=0;   //pure virtual
-    int get_floor_id(){return this->floorId;}
-    int get_class_id(){return this->classId;}
-    void set_inClass(bool b){this->inClassroom=b;}
     virtual ~Student(){ cout<<"A Student to be destroyed!"<<endl; }     //virtual destructor
 };
 
@@ -53,7 +58,6 @@ public:
             this->fatigue = this->fatigue + this->Lfatigue;
     }
     ~Junior(){ cout<<"A JStudent to be destroyed!"<<endl; }
-
 };
 
 
@@ -77,8 +81,6 @@ public:
         cout<<"A New Teacher has been created!"<<endl;
     }
 
-    int get_floor_id(){return this->floorId;}
-    int get_class_id(){return this->classId;}
     void print() const {
         cout<<"Teacher's name is: "<<this->name<<" and teacher's fatigue is: "<<this->fatigue<<endl;    
     }
