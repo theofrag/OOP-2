@@ -14,28 +14,34 @@ public:
     };
 };
 
-class Trasplace{     //μεταβατικος χωρος, ανηκουν εκει το σχολειο και το floor
+class Trasplace{     //μεταβατικος abstract χωρος, ανηκουν εκει το σχολειο και το floor
 
 public:
-    virtual void operate(int hours)=0;  
-    virtual void enter(Student& )=0;
-    virtual void place(Teacher& )=0;
-    virtual void print()  =0;
-
+    virtual void operate(int hours) = 0;  
+    virtual void enter(Student& ) = 0;
+    virtual void place(Teacher& ) = 0;
+    virtual void print() = 0;
+    virtual ~Trasplace(){
+        return;
+    };
 };
 
 
-class Classroom: public Trasplace{  //Η classroom αφου αποθηκευει μαθητες είναι ένας χώρος
+class Classroom: public Trasplace{
 
 private:
     int Cclass; //ποσοι μαθητες χωρανε συνολικα
     int floorId;    //αριθμος οροφου
     int classId;    //αριθμος ταξης
-    Teacher* teacher;
-    list < Student* > students;
+    Teacher* teacher;   //Δεικτης για να αποθηκευει τον δάσκαλο της τάξης.
+    list < Student* > students; //Λιστα που κρατάει τους μαθητές.
 
 public:
-    Classroom(int C,int floorId,int classId): Cclass(C),floorId(floorId),classId(classId),teacher(NULL){
+    Classroom(int C, int floorId, int classId): 
+    Cclass(C),
+    floorId(floorId),
+    classId(classId),
+    teacher(NULL) {
         cout<<"A new Classroom has been created!"<<endl;
     }
 
@@ -43,12 +49,15 @@ public:
     void place(Teacher&);
     void operate(int);
     void print() ;
+    bool available_space(){
+        return ((this->students.size()==this->Cclass)? false : true );    
+    }
 
     ~Classroom(){ cout<<"A Classroom to be destroyed!"<<endl; }    
 };
 
 
-class Corridor: public Space{   //αφου αποθηκευει μαθητες μου εχουν ΚΑΙ exit ΚΑΙ enter είναι ένας χώρος
+class Corridor: public Space{   //αφου αποθηκευει μαθητες και εχει ΚΑΙ exit ΚΑΙ enter είναι ένας space
 
 public:
     Corridor(){ cout<<"A new Corridor has been constructed"<<endl; }
@@ -107,8 +116,6 @@ public:
 };
 
 
-
-
 class School: public Trasplace {  
 
 private:
@@ -117,20 +124,12 @@ private:
     Floor* floors[3];
 
 public:
-    School(int Cclass){
-        for(int i=0;i<3;i++)
-            floors[i]=new Floor(Cclass,i);
-        cout<<"A new School has been constructed"<<endl;
-    }
+    School(int Cclass);
     void enter(Student&);
     void place(Teacher& );
     void operate(int);
     void print() ;
-    ~School(){
-        for(int i=0;i<3;i++)
-            delete floors[i];
-        cout<<"A School to be destroyed!"<<endl;
-    }
+    ~School();
 };
 
 

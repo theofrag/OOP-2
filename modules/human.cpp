@@ -1,8 +1,16 @@
-#include "human.h"
+#include <human.h>
 
+void Junior::attend(int hours){
+    for(int i=0;i<hours;i++)
+            this->fatigue = this->fatigue + this->Lfatigue;
+}
 
-Human::Human(Human& copy){
-    this->name=copy.name;
-    this->fatigue=copy.fatigue;
-    this->Lfatigue=copy.Lfatigue;
+void Senior::attend(int hours){
+    for(int i=0;i<hours;i++)
+            this->fatigue = this->fatigue + this->Lfatigue;
+}
+
+void Teacher::teach(int hours){
+    for(int i=0;i<hours;i++)
+        this->fatigue = this->fatigue + this->Lfatigue; 
 }

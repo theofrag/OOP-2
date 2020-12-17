@@ -49,6 +49,13 @@ Student* Corridor :: exit(){
 
 //---------------------------------------------------------------------
 
+
+School::School(int Cclass){
+    for(int i=0;i<3;i++)
+        floors[i]=new Floor(Cclass,i);
+    cout<<"A new School has been constructed"<<endl;
+}
+
 void School::enter(Student& s){
     
     cout<<s.get_name()<<" enter School!"<<endl;
@@ -74,12 +81,19 @@ void School::print() {
             this->floors[i]->print();
 }
 
+School::~School(){
+    for(int i=0;i<3;i++)
+        delete floors[i];
+    cout<<"A School to be destroyed!"<<endl;
+}
+
 //---------------------------------------------------------------------
 
 void Floor::enter(Student& s){
 
     cout<<s.get_name()<<" enter Floor!"<<endl;
     this->corridor.enter(s);
+    //TODO ελεγχος αν χωραει ο μαθητης
     Student* temp=this->corridor.exit();
     this->classrooms[temp->get_class_id()]->enter(*temp);
 }
@@ -100,6 +114,10 @@ void Floor::print()  {
 //---------------------------------------------------------------------
 
 void Classroom::enter(Student& s){
+
+    if(this->students.size()==Cclass){
+        cout<<"eeee"<<endl;
+    }
 
     this->students.push_front(&s);
     s.set_inClass(true);
