@@ -30,9 +30,9 @@ public:
 class Classroom: public Trasplace{
 
 private:
-    int Cclass; //ποσοι μαθητες χωρανε συνολικα
-    int floorId;    //αριθμος οροφου
-    int classId;    //αριθμος ταξης
+    unsigned int Cclass; //ποσοι μαθητες χωρανε συνολικα
+    unsigned int floorId;    //αριθμος οροφου
+    unsigned int classId;    //αριθμος ταξης
     Teacher* teacher;   //Δεικτης για να αποθηκευει τον δάσκαλο της τάξης.
     list < Student* > students; //Λιστα που κρατάει τους μαθητές.
 
@@ -66,7 +66,7 @@ public:
     ~Corridor(){ cout<<"A Corridor to be destroyed!"<<endl; }
 };
 
-class Floor {
+class Floor: public Trasplace {
 
 private:
     Classroom* classrooms[6];
