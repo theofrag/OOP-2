@@ -8,15 +8,15 @@ using namespace std;
 //Καθε ανθρωπος χαρακτηριζεται απο το ονομα του και την κουραση του
 class Human{        
 
-protected:
+private:
     string name;    //το ονομα του ανθρωπου
-    int fatigue;    // Ακεραιος που μετραει την κουραση καθε ανθρωπου
-    int Lfatigue;   //η κουραση αυξανεται κατα Lfatigue οσο περναει η ωρα.
+
 public:
-    Human(string name, int L): name(name), fatigue(0), Lfatigue(L) {}
-    string get_name(){return this->name;}
+    Human(string name): name(name){}
+    string get_name() const {return this->name;}
     virtual void print() const=0;
-    virtual ~Human(){ return;}
+    virtual ~Human(){ return;}  //για να υλοποιηθουν οι υπολοιποι virtual destructors
+
 };
 
 
@@ -28,17 +28,19 @@ class Academic: public Human{
 protected:
     int floorId, classId;   //αριθμος οροφου, αριθμος αιθουσας
     bool inClassroom;   //αν ειναι στην ταξη του == true
+    int fatigue;    // Ακεραιος που μετραει την κουραση καθε ανθρωπου
+
 public:
-    Academic(string name,int floorId,int classId,int L):Human(name,L),floorId(floorId),classId(classId), inClassroom(false) {}
+    Academic(string name,int floorId,int classId):Human(name),floorId(floorId),classId(classId), inClassroom(false) {}
     void set_inClass(bool b){ //Αν b=true ==> μεσα στην ταξη.
         this->inClassroom=b; 
     }
 
-    int get_floor_id(){
+    int get_floor_id() const{
         return this->floorId;
     }
 
-    int get_class_id(){
+    int get_class_id() const {
         return this->classId;
     }
     
@@ -50,15 +52,15 @@ public:
 
 //Abstract class και αυτη, δηλώνει έναν μαθητή. Ομως κάθε μαθητής χωρίζεται σε 
 //senior ή junior.
-class Student: public Academic {   
+class Student: public Academic {  
 
 public:
-    Student(string name,int floorId,int classId,int L) : Academic(name,floorId,classId,L) {
+    Student(string name,int floorId,int classId) : Academic(name,floorId,classId) {
         cout<<"A new Student has been created! "<<endl;
     };
 
     void print() const{
-        cout<<"Student's name is: "<<this->name
+        cout<<"Student's name is: "<< this->get_name()
         <<" and students fatigue is: "<<this->fatigue<<endl;
     }
 
@@ -71,8 +73,11 @@ public:
 
 class Junior: public Student {  //Subclass of student
 
+private:
+    int Lj;
+
 public:
-    Junior(string name,int floorId,int classId,int Lj=1):Student(name,floorId,classId,Lj){};
+    Junior(string name,int floorId,int classId,int Lj=1):Student(name,floorId,classId),Lj(Lj){};
     void attend(int);
     ~Junior(){ cout<<"A JStudent to be destroyed!"<<endl; }
 };
@@ -80,8 +85,10 @@ public:
 
 class Senior: public Student {  //Subclass of student
 
+private:
+    int Ls;
 public:
-    Senior(string name,int floorId,int classId,int Ls=1):Student(name,floorId,classId,Ls){};
+    Senior(string name,int floorId,int classId,int Ls=1):Student(name,floorId,classId), Ls(Ls) {};
     void attend(int);
     ~Senior(){ cout<<"A S-Student to be destroyed!"<<endl; }
 };
@@ -89,13 +96,16 @@ public:
 
 class Teacher: public Academic {
 
+private:
+    int Lt;
+
 public:
-    Teacher(string name,int floorId,int classId,int Lt=1):Academic(name,floorId,classId,Lt){
+    Teacher(string name,int floorId,int classId,int Lt=1):Academic(name,floorId,classId),Lt(Lt) {
         cout<<"A New Teacher has been created!"<<endl;
     }
 
     void print() const {
-        cout<<"Teacher's name is: "<<this->name<<" and teacher's fatigue is: "<<this->fatigue<<endl;    
+        cout<<"Teacher's name is: "<<this->get_name()<<" and teacher's fatigue is: "<<this->fatigue<<endl;    
     }
 
     void teach(int hours);
