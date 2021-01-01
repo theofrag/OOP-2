@@ -36,6 +36,8 @@ public:
         this->inClassroom=b; 
     }
 
+    bool get_inClassroom(){return this->inClassroom;}
+
     int get_floor_id() const{
         return this->floorId;
     }
@@ -65,7 +67,7 @@ public:
     }
 
     virtual void attend(int hours)=0;   //pure virtual
-    virtual ~Student(){
+    ~Student(){
         cout<<"A Student to be destroyed!"<<endl;
     }     
 };
@@ -79,7 +81,7 @@ private:
 public:
     Junior(string name,int floorId,int classId,int Lj=1):Student(name,floorId,classId),Lj(Lj){};
     void attend(int);
-    ~Junior(){ cout<<"A JStudent to be destroyed!"<<endl; }
+
 };
 
 
@@ -90,7 +92,7 @@ private:
 public:
     Senior(string name,int floorId,int classId,int Ls=1):Student(name,floorId,classId), Ls(Ls) {};
     void attend(int);
-    ~Senior(){ cout<<"A S-Student to be destroyed!"<<endl; }
+
 };
 
 

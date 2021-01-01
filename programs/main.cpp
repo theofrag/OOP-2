@@ -2,6 +2,7 @@
 #include <cstdlib>  
 
 int main(int argc, char** argv){
+    srand(time(NULL));
     const int N=18;
     int Cclass=atoi(argv[1]); 
     int Lj=atoi(argv[2]); 
@@ -49,30 +50,27 @@ int main(int argc, char** argv){
     int i=0;
     Student* s;
 
-    while(end!=0){
-
-        temp=rand()%(Cclass*N);                 //επιλεγω τυχαιο αριθμο που θα μπουνε στο yar
+    while(1){
         
+        temp=rand()%(end+1);                 //επιλεγω τυχαιο αριθμο που θα μπουνε στο yar
 
         for(int k=0;k<temp;k++){
-            if(counter+Cclass*N==0)             //Αν μπήκαν όλοι οι μαθητες, αυτο θα είναι 0
+            if(end==0)             //Αν μπήκαν όλοι οι μαθητες, αυτο θα είναι 0
                 break;
             
-            i=rand()%(Cclass*N + counter);        //αριθμος μαθητων συνολικος επιλεγω εναν μαθητη
+            i=rand()%end;        //αριθμος μαθητων συνολικος επιλεγω εναν μαθητη
            
                  s=stud[i];
-                stud[i]=stud[Cclass*N-1+counter];    //τον βαζω στο τελος για να μην τον ξαναπαρω
-                stud[Cclass*N-1+counter]=s;
-                counter--;                      //Για κάθε νέο μαθητή που βάζω, το μειώνω
+                stud[i]=stud[end-1];    //τον βαζω στο τελος για να μην τον ξαναπαρω
+                stud[end-1]=s;
+                end--;                      //Για κάθε νέο μαθητή που βάζω, το μειώνω
                 school.enter(*s);               //βαζω στο yard τον μαθητη αν χωραει
-                end--;
         }
 
-        if(div==0){      //Αν εχουν μπει όλοι οι καθηγητες στην τάξη τους, πρέπει να ελένξουμε και τους μαθητές
-            continue;}
-
-            int times=rand()%div;
-            for(int k=0;k<=times;k++){
+            int times=rand()%(div+1);
+            for(int k=0;k<times;k++){
+                if(div==0)
+                    break;
                 i=rand()%div;
                 school.place(*(teachers[i]));
                 Teacher* temp= teachers[i];
@@ -80,6 +78,8 @@ int main(int argc, char** argv){
                 teachers[div-1]=temp;
                 div--; 
             }
+        if(end==0 && div==0)
+            break;
         
     }
     school.operate(10);
@@ -88,8 +88,10 @@ int main(int argc, char** argv){
     for(int i=0;i<N*Cclass;i++)
         delete stud[i];
 
-    for(int i=0;i<N;i++)
-        delete teachers[i];
+    for(int i=0;i<N;i++){
+        if(teachers[i]->get_inClassroom()==false)
+            cout<<teachers[i]->get_name()<<endl;
+        delete teachers[i];}
     
 
     return 0;

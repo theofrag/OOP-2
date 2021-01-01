@@ -101,6 +101,7 @@ public:
     }
     void enter(Student&);
     Student* exit();
+    ~Stairs(){cout<<"Stairs to be destroyed"<<endl;}
 };
 
 class Schoolyard: public Space{
@@ -112,7 +113,7 @@ public:
     }
     void enter(Student&);
     Student* exit();
-
+    ~Schoolyard(){cout<<"A Schoolyard to be destroyed"<<endl;}
 };
 
 
