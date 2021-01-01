@@ -31,7 +31,7 @@ protected:
     int fatigue;    // Ακεραιος που μετραει την κουραση καθε ανθρωπου
 
 public:
-    Academic(string name,int floorId,int classId):Human(name),floorId(floorId),classId(classId), inClassroom(false) {}
+    Academic(string name,int floorId,int classId):Human(name),floorId(floorId),classId(classId), inClassroom(false),fatigue(0) {}
     void set_inClass(bool b){ //Αν b=true ==> μεσα στην ταξη.
         this->inClassroom=b; 
     }
